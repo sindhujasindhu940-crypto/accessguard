@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply antialiased bg-slate-50 text-slate-900 overflow-x-hidden;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+}
+
+/* Custom Utilities for Glassmorphism & Animations */
+@layer utilities {
+  .glass-card {
+    @apply bg-white/70 backdrop-blur-lg border border-white/20 shadow-xl;
+  }
+  .glass-dark {
+    @apply bg-slate-900/70 backdrop-blur-lg border border-slate-700/50 shadow-2xl;
+  }
+}
