@@ -20,6 +20,12 @@ const Sidebar = () => {
     if (role === 'Faculty') {
       return [...base, { name: 'Requests', path: '/faculty/requests', icon: FileText }];
     }
+    if (role === 'Visitor') {
+      return [
+        { name: 'Make Request', path: '/visitor-request', icon: FileText },
+        { name: 'Request Status', path: '/visitor/dashboard', icon: Clock }
+      ];
+    }
     return base;
   };
 

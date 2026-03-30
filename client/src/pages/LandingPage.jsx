@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ShieldCheck, UserCheck, QrCode, TrendingUp, Lock, CheckCircle, ChevronRight, Users } from 'lucide-react';
-
+import { useAuth } from '../context/AuthContext';
 const FeatureCard = ({ icon: Icon, title, description, delay }) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
@@ -19,6 +19,7 @@ const FeatureCard = ({ icon: Icon, title, description, delay }) => (
 );
 
 const LandingPage = () => {
+  const { user } = useAuth();
   return (
     <div className="min-h-[200vh]">
       {/* Background blobs */}
@@ -67,12 +68,26 @@ const LandingPage = () => {
           transition={{ duration: 0.7, delay: 0.3 }}
           className="flex flex-col sm:flex-row gap-4"
         >
-          <Link to="/visitor-request" className="px-8 py-4 rounded-xl bg-indigo-600 text-white font-bold text-lg hover:bg-indigo-700 hover:shadow-xl hover:shadow-indigo-500/30 transition-all flex items-center justify-center gap-2">
-            Register as Visitor <ChevronRight className="w-5 h-5" />
-          </Link>
-          <Link to="/login" className="px-8 py-4 rounded-xl glass-card text-slate-700 font-bold text-lg hover:bg-slate-50 transition-all flex items-center justify-center gap-2">
-            Staff / Faculty Login
-          </Link>
+          {user ? (
+            user.role === 'Visitor' ? (
+              <Link to="/visitor/dashboard" className="px-8 py-4 rounded-xl bg-indigo-600 text-white font-bold text-lg hover:bg-indigo-700 hover:shadow-xl hover:shadow-indigo-500/30 transition-all flex items-center justify-center gap-2">
+                View Request Status <ChevronRight className="w-5 h-5" />
+              </Link>
+            ) : (
+              <Link to={user.role === 'Admin' ? '/dashboard' : user.role === 'Faculty' ? '/faculty/requests' : '/security/scan'} className="px-8 py-4 rounded-xl bg-indigo-600 text-white font-bold text-lg hover:bg-indigo-700 hover:shadow-xl hover:shadow-indigo-500/30 transition-all flex items-center justify-center gap-2">
+                Go to Dashboard <ChevronRight className="w-5 h-5" />
+              </Link>
+            )
+          ) : (
+            <>
+              <Link to="/login" className="px-8 py-4 rounded-xl bg-indigo-600 text-white font-bold text-lg hover:bg-indigo-700 hover:shadow-xl hover:shadow-indigo-500/30 transition-all flex items-center justify-center gap-2">
+                Register as Visitor <ChevronRight className="w-5 h-5" />
+              </Link>
+              <Link to="/login" className="px-8 py-4 rounded-xl glass-card text-slate-700 font-bold text-lg hover:bg-slate-50 transition-all flex items-center justify-center gap-2">
+                Staff / Faculty Login
+              </Link>
+            </>
+          )}
         </motion.div>
 
         {/* Floating 3D Dashboard Mockup */}
@@ -90,11 +105,27 @@ const LandingPage = () => {
               <div className="w-3 h-3 rounded-full bg-green-400" />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {[1, 2, 3].map(i => (
-                <div key={i} className="bg-white/60 h-32 rounded-xl animate-pulse" />
-              ))}
+              <div className="bg-white/80 p-6 rounded-xl shadow-sm text-left">
+                <p className="text-slate-500 text-sm font-semibold">Total Requests</p>
+                <p className="text-3xl font-bold text-indigo-600">1,248</p>
+              </div>
+              <div className="bg-white/80 p-6 rounded-xl shadow-sm text-left">
+                <p className="text-slate-500 text-sm font-semibold">Active Visitors</p>
+                <p className="text-3xl font-bold text-emerald-500">42</p>
+              </div>
+              <div className="bg-white/80 p-6 rounded-xl shadow-sm text-left">
+                <p className="text-slate-500 text-sm font-semibold">Pending Approvals</p>
+                <p className="text-3xl font-bold text-amber-500">7</p>
+              </div>
             </div>
-            <div className="mt-6 bg-white/60 h-64 rounded-xl animate-pulse" />
+            <div className="mt-6 bg-white/80 h-64 rounded-xl shadow-sm flex flex-col justify-end p-6 gap-2 text-left relative overflow-hidden">
+               <h3 className="text-lg font-bold text-slate-800 mb-4 absolute top-6 left-6">Visitor Traffic Trends</h3>
+               <div className="flex items-end gap-4 h-40 w-full mt-10">
+                 {[40, 60, 30, 80, 50, 90, 70].map((h, i) => (
+                   <div key={i} style={{ height: `${h}%` }} className="flex-1 bg-gradient-to-t from-indigo-500 to-indigo-300 rounded-t-md opacity-80" />
+                 ))}
+               </div>
+            </div>
           </div>
         </motion.div>
       </section>

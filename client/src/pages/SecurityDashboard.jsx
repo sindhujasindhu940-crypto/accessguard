@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import { QrCode, Search, CheckCircle, Clock } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 const SecurityDashboard = () => {
   const [passId, setPassId] = useState('');
@@ -24,8 +25,6 @@ const SecurityDashboard = () => {
       setActiveLogs(data);
     } catch (err) {
       console.error(err);
-      // For visual preview without backend data setup
-      setActiveLogs([{ _id: '1', passId: { passId: 'QR-1234', requestId: { visitorName: 'John Doe', purpose: 'Meeting' } }, checkInTime: new Date().toISOString() }]);
     }
   };
 
@@ -63,9 +62,14 @@ const SecurityDashboard = () => {
 
   return (
     <div className="space-y-8">
-      <header className="mb-8">
-        <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Security Terminal</h1>
-        <p className="text-slate-500">Scan passes and monitor campus entry/exit points.</p>
+      <header className="mb-8 flex justify-between items-center">
+        <div>
+          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Security Terminal</h1>
+          <p className="text-slate-500">Scan passes and monitor campus entry/exit points.</p>
+        </div>
+        <Link to="/visitor-request" className="px-5 py-2.5 bg-slate-800 text-white font-semibold rounded-xl hover:bg-slate-900 shadow-md transition">
+          Register Walk-in Visitor
+        </Link>
       </header>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">

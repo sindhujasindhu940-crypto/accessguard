@@ -30,7 +30,7 @@ const registerUser = async (req, res) => {
       email,
       password,
       role,
-      department,
+      department: department || undefined,
       mobile
     });
 
@@ -99,7 +99,9 @@ const getUsers = async (req, res) => {
 // @access  Public
 const getFaculty = async (req, res) => {
   try {
-    const faculty = await User.find({ role: 'Faculty' }).select('name email department mobile');
+    const faculty = await User.find({ role: 'Faculty' })
+      .populate('department', 'name')
+      .select('name email department mobile');
     res.json(faculty);
   } catch (error) {
     console.error('Get Faculty Error:', error.message);

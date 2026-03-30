@@ -12,6 +12,7 @@ const AdminDashboard = () => {
     activeVisitors: 0,
     totalExitsToday: 0
   });
+  const [activeLogs, setActiveLogs] = useState([]);
 
   useEffect(() => {
     const fetchMetrics = async () => {
@@ -22,16 +23,22 @@ const AdminDashboard = () => {
         setMetrics(data);
       } catch (error) {
         console.error("Error fetching metrics", error);
-        // Set mock data if API fails to show visual preview
-        setMetrics({
-          totalRequestsToday: 42,
-          pendingApprovals: 15,
-          activeVisitors: 28,
-          totalExitsToday: 8
-        });
       }
     };
+
+    const fetchActiveLogs = async () => {
+      try {
+        const token = JSON.parse(localStorage.getItem('userInfo'))?.token;
+        const config = { headers: { Authorization: `Bearer ${token}` } };
+        const { data } = await axios.get('http://localhost:5000/api/tracking/active', config);
+        setActiveLogs(data);
+      } catch (err) {
+        console.error("Error fetching logs", err);
+      }
+    };
+
     fetchMetrics();
+    fetchActiveLogs();
   }, []);
 
   const MetricCard = ({ title, value, icon: Icon, colorClass, delay }) => (
@@ -117,16 +124,20 @@ const AdminDashboard = () => {
         <div className="glass-card rounded-2xl p-6 h-96 overflow-y-auto">
           <h3 className="text-lg font-bold text-slate-800 mb-4">Recent Activity Logs</h3>
           <div className="space-y-4">
-            {[1, 2, 3, 4, 5].map((item) => (
-              <div key={item} className="flex gap-4 items-start p-3 rounded-lg hover:bg-slate-50 transition">
-                <div className="w-2 h-2 rounded-full bg-emerald-500 mt-2" />
-                <div>
-                  <p className="text-sm font-semibold text-slate-700">Visitor Check-in</p>
-                  <p className="text-xs text-slate-500">John Doe was checked in at Main Gate by Security Team.</p>
-                  <p className="text-xs text-emerald-600 mt-1">2 mins ago</p>
+            {activeLogs.length === 0 ? (
+              <p className="text-slate-500 text-sm">No recent active visitors.</p>
+            ) : (
+              activeLogs.map((log) => (
+                <div key={log._id} className="flex gap-4 items-start p-3 rounded-lg hover:bg-slate-50 transition">
+                  <div className="w-2 h-2 rounded-full bg-emerald-500 mt-2" />
+                  <div>
+                    <p className="text-sm font-semibold text-slate-700">{log.passId?.requestId?.visitorName || 'Unknown Visitor'}</p>
+                    <p className="text-xs text-slate-500">Checked in at Campus by Security.</p>
+                    <p className="text-xs text-emerald-600 mt-1">{new Date(log.checkInTime).toLocaleTimeString()}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
       </div>

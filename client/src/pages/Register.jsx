@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { motion } from 'framer-motion';
@@ -9,8 +9,23 @@ const Register = () => {
     name: '',
     email: '',
     password: '',
-    role: 'Admin'
+    role: 'Admin',
+    department: ''
   });
+
+  const [departments, setDepartments] = useState([]);
+
+  useEffect(() => {
+    const fetchDepartments = async () => {
+      try {
+        const { data } = await axios.get('http://localhost:5000/api/departments');
+        setDepartments(data);
+      } catch (err) {
+        console.error('Failed to load departments', err);
+      }
+    };
+    fetchDepartments();
+  }, []);
 
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -131,6 +146,25 @@ const Register = () => {
               </div>
             </div>
           </div>
+
+          {formData.role === 'Faculty' && (
+            <div className="space-y-1 text-left">
+              <label className="text-sm font-semibold text-slate-700 ml-1">Department</label>
+              <div className="relative">
+                <select
+                  value={formData.department}
+                  onChange={(e) => setFormData({ ...formData, department: e.target.value })}
+                  className="w-full px-4 py-3 bg-white/70 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all outline-none text-slate-900 appearance-none"
+                  required
+                >
+                  <option value="" disabled>Select Department</option>
+                  {departments.map(dept => (
+                    <option key={dept._id} value={dept._id}>{dept.name}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          )}
 
           <button
             disabled={loading}
