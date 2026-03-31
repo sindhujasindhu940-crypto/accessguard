@@ -10,6 +10,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import SecurityDashboard from './pages/SecurityDashboard';
 import FacultyDashboard from './pages/FacultyDashboard';
 import DigitalPass from './pages/DigitalPass';
+import VisitorDashboard from './pages/VisitorDashboard';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route path="/security/scan" element={<SecurityDashboard />} />
           <Route path="/security/logs" element={<SecurityDashboard />} />
           <Route path="/faculty/requests" element={<FacultyDashboard />} />
+          <Route path="/visitor/dashboard" element={<VisitorDashboard />} />
         </Route>
       </Routes>
     </AuthProvider>

@@ -20,21 +20,7 @@ const DigitalPass = () => {
         setPassData(data.pass);
       } catch (error) {
         console.error(error);
-        // Mock fallback for preview purposes
-        setTimeout(() => {
-          setPassData({
-            passId: passId || 'A2B4C6',
-            validUntil: new Date(new Date().setHours(18,0,0,0)).toISOString(),
-            status: 'Active',
-            requestId: {
-              visitorName: 'Jane Doe',
-              purpose: 'Project Meeting',
-              department: { name: 'Computer Science' },
-              hostId: { name: 'Dr. Alan Turing' }
-            }
-          });
-          setLoading(false);
-        }, 1000);
+        setPassData(null);
       } finally {
         setLoading(false);
       }

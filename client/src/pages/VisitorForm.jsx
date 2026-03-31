@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
+import { useAuth } from '../context/AuthContext';
 import {
   User,
   Mail,
@@ -15,13 +16,14 @@ import {
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 const VisitorForm = () => {
+  const { user } = useAuth();
   const [facultyList, setFacultyList] = useState([]);
   const [facultyLoading, setFacultyLoading] = useState(true);
 
   const [formData, setFormData] = useState({
-    visitorName: '',
-    mobile: '',
-    email: '',
+    visitorName: user?.name || '',
+    mobile: user?.mobile || '',
+    email: user?.email || '',
     purpose: '',
     hostId: '',
     department: '',
@@ -86,9 +88,9 @@ const VisitorForm = () => {
 
       setSuccess(true);
       setFormData({
-        visitorName: '',
-        mobile: '',
-        email: '',
+        visitorName: user?.name || '',
+        mobile: user?.mobile || '',
+        email: user?.email || '',
         purpose: '',
         hostId: '',
         department: '',
@@ -176,7 +178,8 @@ const VisitorForm = () => {
                   required
                   value={formData.visitorName}
                   onChange={(e) => handleChange('visitorName', e.target.value)}
-                  className="w-full pl-12 pr-4 py-3 bg-white/50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none"
+                  readOnly={!!user}
+                  className={`w-full pl-12 pr-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none ${user ? 'bg-slate-100 text-slate-500' : 'bg-white/50'}`}
                   placeholder="Jane Doe"
                 />
               </div>
@@ -206,7 +209,8 @@ const VisitorForm = () => {
                   required
                   value={formData.email}
                   onChange={(e) => handleChange('email', e.target.value)}
-                  className="w-full pl-12 pr-4 py-3 bg-white/50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none"
+                  readOnly={!!user}
+                  className={`w-full pl-12 pr-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none ${user ? 'bg-slate-100 text-slate-500' : 'bg-white/50'}`}
                   placeholder="jane@example.com"
                 />
               </div>

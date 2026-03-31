@@ -40,6 +40,8 @@ const Login = () => {
         navigate('/faculty/requests');
       } else if (res.data.role === 'Security') {
         navigate('/security/scan');
+      } else if (res.data.role === 'Visitor') {
+        navigate('/visitor/dashboard');
       } else {
         navigate('/');
       }
