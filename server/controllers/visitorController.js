@@ -1,6 +1,31 @@
 const VisitorRequest = require('../models/VisitorRequest');
 const VisitorPass = require('../models/VisitorPass');
 
+// @desc    Get pass by passId
+// @route   GET /api/visitors/pass/:passId
+// @access  Public
+const getPassByPassId = async (req, res) => {
+  try {
+    const pass = await VisitorPass.findOne({ passId: req.params.passId })
+      .populate({
+        path: 'requestId',
+        populate: [
+          { path: 'hostId', select: 'name department' },
+          { path: 'department', select: 'name' }
+        ]
+      });
+
+    if (!pass) {
+      return res.status(404).json({ message: 'Pass not found' });
+    }
+
+    res.json({ pass });
+  } catch (error) {
+    console.error('Error fetching pass:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
 // @desc    Create new visitor request
 // @route   POST /api/visitors/request
 // @access  Public
@@ -115,5 +140,6 @@ module.exports = {
   getFacultyRequests,
   updateVisitorStatus,
   createVisitorRequest,
-  getMyRequests
+  getMyRequests,
+  getPassByPassId
 };

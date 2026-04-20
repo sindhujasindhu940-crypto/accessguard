@@ -132,7 +132,7 @@ const AdminDashboard = () => {
                   <div className="w-2 h-2 rounded-full bg-emerald-500 mt-2" />
                   <div>
                     <p className="text-sm font-semibold text-slate-700">{log.passId?.requestId?.visitorName || 'Unknown Visitor'}</p>
-                    <p className="text-xs text-slate-500">Checked in at Campus by Security.</p>
+                    <p className="text-xs text-slate-500">Checked in at Campus.</p>
                     <p className="text-xs text-emerald-600 mt-1">{new Date(log.checkInTime).toLocaleTimeString()}</p>
                   </div>
                 </div>

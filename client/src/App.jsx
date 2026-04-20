@@ -7,7 +7,8 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import VisitorForm from './pages/VisitorForm';
 import AdminDashboard from './pages/AdminDashboard';
-import SecurityDashboard from './pages/SecurityDashboard';
+import AdminUsers from './pages/AdminUsers';
+import AdminReports from './pages/AdminReports';
 import FacultyDashboard from './pages/FacultyDashboard';
 import DigitalPass from './pages/DigitalPass';
 import VisitorDashboard from './pages/VisitorDashboard';
@@ -30,9 +31,8 @@ function App() {
         {/* Protected Routes */}
         <Route element={<MainLayout requireAuth={true} />}>
           <Route path="/dashboard" element={<AdminDashboard />} />
-          <Route path="/admin/users" element={<AdminDashboard />} />
-          <Route path="/security/scan" element={<SecurityDashboard />} />
-          <Route path="/security/logs" element={<SecurityDashboard />} />
+          <Route path="/admin/users" element={<AdminUsers />} />
+          <Route path="/admin/reports" element={<AdminReports />} />
           <Route path="/faculty/requests" element={<FacultyDashboard />} />
           <Route path="/visitor/dashboard" element={<VisitorDashboard />} />
         </Route>

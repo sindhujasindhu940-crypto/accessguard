@@ -6,6 +6,8 @@ require('dotenv').config();
 const userRoutes = require('./routes/userRoutes');
 const visitorRoutes = require('./routes/visitorRoutes');
 const departmentRoutes = require('./routes/departmentRoutes');
+const analyticsRoutes = require('./routes/analyticsRoutes');
+const trackingRoutes = require('./routes/trackingRoutes');
 
 const app = express();
 
@@ -27,6 +29,8 @@ app.get('/', (req, res) => {
 app.use('/api/users', userRoutes);
 app.use('/api/visitors', visitorRoutes);
 app.use('/api/departments', departmentRoutes);
+app.use('/api/analytics', analyticsRoutes);
+app.use('/api/tracking', trackingRoutes);
 
 // MongoDB connection
 const connectDB = async () => {

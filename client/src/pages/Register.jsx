@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { motion } from 'framer-motion';
-import { User, Mail, Lock, CheckCircle, Shield, AlertCircle } from 'lucide-react';
+import { User, Mail, Lock, CheckCircle, Shield, AlertCircle, ArrowLeft } from 'lucide-react';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -47,7 +47,12 @@ const Register = () => {
   };
 
   return (
-    <div className="flex items-center justify-center py-20 px-4 relative">
+    <div className="flex items-center justify-center py-20 px-4 relative min-h-screen">
+      <div className="absolute top-6 left-6 z-20">
+        <Link to="/" className="flex items-center gap-2 px-4 py-2 bg-white/80 hover:bg-indigo-50 border border-slate-200 text-slate-600 hover:text-indigo-600 rounded-full shadow-sm transition font-medium">
+          <ArrowLeft className="w-4 h-4" /> Back to Home
+        </Link>
+      </div>
       <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
         <div className="absolute top-[20%] right-[10%] w-[30%] h-[30%] rounded-full bg-indigo-500/10 blur-[100px]" />
         <div className="absolute bottom-[20%] left-[10%] w-[30%] h-[30%] rounded-full bg-cyan-500/10 blur-[100px]" />
@@ -58,6 +63,12 @@ const Register = () => {
         animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-lg glass-card rounded-3xl p-8 border border-white/50 shadow-2xl relative bg-white/60"
       >
+        <div className="flex justify-center mb-6">
+          <Link to="/" className="flex items-center gap-2 text-indigo-600 hover:text-indigo-800 transition">
+            <Shield className="w-8 h-8" />
+            <span className="text-2xl font-bold tracking-tight">AccessGuard</span>
+          </Link>
+        </div>
         <div className="text-center mb-8">
           <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Create Account</h1>
           <p className="text-slate-500 mt-2">Setup a system account for testing</p>
@@ -139,7 +150,6 @@ const Register = () => {
                   className="w-full pl-11 pr-4 py-3 bg-white/70 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all outline-none text-slate-900 appearance-none"
                 >
                   <option value="Admin">Admin</option>
-                  <option value="Security">Security</option>
                   <option value="Faculty">Faculty</option>
                   <option value="Visitor">Visitor</option>
                 </select>

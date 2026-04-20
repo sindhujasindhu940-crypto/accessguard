@@ -74,7 +74,7 @@ const LandingPage = () => {
                 View Request Status <ChevronRight className="w-5 h-5" />
               </Link>
             ) : (
-              <Link to={user.role === 'Admin' ? '/dashboard' : user.role === 'Faculty' ? '/faculty/requests' : '/security/scan'} className="px-8 py-4 rounded-xl bg-indigo-600 text-white font-bold text-lg hover:bg-indigo-700 hover:shadow-xl hover:shadow-indigo-500/30 transition-all flex items-center justify-center gap-2">
+              <Link to={user.role === 'Admin' ? '/dashboard' : user.role === 'Faculty' ? '/faculty/requests' : '/'} className="px-8 py-4 rounded-xl bg-indigo-600 text-white font-bold text-lg hover:bg-indigo-700 hover:shadow-xl hover:shadow-indigo-500/30 transition-all flex items-center justify-center gap-2">
                 Go to Dashboard <ChevronRight className="w-5 h-5" />
               </Link>
             )
@@ -153,7 +153,7 @@ const LandingPage = () => {
           <FeatureCard 
             icon={Lock}
             title="Real-time Tracking"
-            description="Security staff can monitor exactly who is on campus at any given moment with live entry and exit logs."
+            description="Admins can monitor exactly who is on campus at any given moment with live entry and exit logs."
             delay={0.3}
           />
           <FeatureCard 
@@ -165,7 +165,7 @@ const LandingPage = () => {
           <FeatureCard 
             icon={Users}
             title="Role-Based Access"
-            description="Secure system with distinct portals for Admins, Security, Faculty, and Visitors."
+            description="Secure system with distinct portals for Admins, Faculty, and Visitors."
             delay={0.5}
           />
           <FeatureCard 
