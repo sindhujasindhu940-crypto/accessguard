@@ -14,11 +14,8 @@ const Sidebar = () => {
     if (role === 'Admin') {
       return [...base, { name: 'Users', path: '/admin/users', icon: Users }, { name: 'Reports', path: '/admin/reports', icon: FileText }];
     }
-    if (role === 'Security') {
-      return [...base, { name: 'Scan Pass', path: '/security/scan', icon: QrCode }, { name: 'Active Logs', path: '/security/logs', icon: Clock }];
-    }
     if (role === 'Faculty') {
-      return [...base, { name: 'Requests', path: '/faculty/requests', icon: FileText }];
+      return [{ name: 'Requests', path: '/faculty/requests', icon: FileText }];
     }
     if (role === 'Visitor') {
       return [

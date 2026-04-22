@@ -1,22 +1,37 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { motion } from 'framer-motion';
-import { QrCode, Calendar, Clock, MapPin, User, Building, Printer, ChevronLeft } from 'lucide-react';
+import { QrCode, Calendar, Clock, MapPin, User, Building, Download, ChevronLeft } from 'lucide-react';
+import html2pdf from 'html2pdf.js';
 
 const DigitalPass = () => {
   const { passId } = useParams();
   const [passData, setPassData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const passRef = useRef(null);
+
+  const handleDownloadPdf = () => {
+    const element = passRef.current;
+    if (!element) return;
+    
+    const opt = {
+      margin:       [0.5, 0.5, 0.5, 0.5],
+      filename:     `Visitor_Pass_${passData.passId}.pdf`,
+      image:        { type: 'jpeg', quality: 0.98 },
+      html2canvas:  { scale: 2, useCORS: true },
+      jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+    };
+    
+    html2pdf().set(opt).from(element).save();
+  };
 
   useEffect(() => {
     // In a real app we would fetch the pass without auth if it's a public link, 
     // or with auth if accessed from dashboard. Here we use the scan endpoint.
     const fetchPass = async () => {
       try {
-        const token = JSON.parse(localStorage.getItem('userInfo'))?.token;
-        const config = { headers: { Authorization: `Bearer ${token}` } };
-        const { data } = await axios.get(`http://localhost:5000/api/tracking/scan/${passId}`, config);
+        const { data } = await axios.get(`http://localhost:5000/api/visitors/pass/${passId}`);
         setPassData(data.pass);
       } catch (error) {
         console.error(error);
@@ -49,6 +64,7 @@ const DigitalPass = () => {
           <ChevronLeft className="w-5 h-5"/> Back
         </Link>
         <motion.div 
+          ref={passRef}
           initial={{ opacity: 0, scale: 0.9, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           className="bg-white rounded-[2rem] overflow-hidden shadow-2xl relative"
@@ -99,9 +115,9 @@ const DigitalPass = () => {
              </div>
           </div>
 
-          <div className="p-6 bg-slate-50 text-center border-t border-slate-100 flex justify-center">
-            <button onClick={() => window.print()} className="flex items-center gap-2 px-6 py-2.5 bg-slate-800 text-white rounded-xl font-medium hover:bg-slate-900 transition">
-              <Printer className="w-4 h-4" /> Print / Save PDF
+          <div data-html2canvas-ignore="true" className="p-6 bg-slate-50 text-center border-t border-slate-100 flex justify-center">
+            <button onClick={handleDownloadPdf} className="flex items-center gap-2 px-6 py-2.5 bg-indigo-600 border border-transparent shadow shadow-indigo-500/20 text-white rounded-xl font-bold hover:bg-indigo-700 transition">
+              <Download className="w-4 h-4" /> Download PDF Pass
             </button>
           </div>
         </motion.div>

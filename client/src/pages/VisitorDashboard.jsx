@@ -101,7 +101,7 @@ const VisitorDashboard = () => {
               {req.status === 'Approved' && req.pass && (
                 <div className="mt-6 pt-4 border-t border-slate-100">
                   <Link to={`/pass/${req.pass.passId}`} className="w-full py-3 bg-indigo-50 text-indigo-700 border border-indigo-100 rounded-xl font-bold hover:bg-indigo-600 hover:text-white transition-all flex justify-center items-center gap-2 group">
-                    <QrCode className="w-5 h-5 group-hover:scale-110 transition-transform"/> View Digital Pass
+                    <QrCode className="w-5 h-5 group-hover:scale-110 transition-transform"/> View & Download Pass
                   </Link>
                 </div>
               )}

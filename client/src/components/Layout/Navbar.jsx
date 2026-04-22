@@ -7,10 +7,10 @@ const Navbar = () => {
 
   return (
     <header className="h-16 glass-card sticky top-0 z-50 px-6 flex items-center justify-between border-b border-indigo-100/50 block">
-      <Link to="/" className="flex items-center gap-2 text-indigo-700 hover:opacity-80 transition">
+      <div className="flex items-center gap-2 text-indigo-700">
         <Shield className="w-8 h-8" />
         <span className="text-xl font-bold tracking-tight">AccessGuard</span>
-      </Link>
+      </div>
       
       <div className="flex items-center gap-4">
         {user ? (

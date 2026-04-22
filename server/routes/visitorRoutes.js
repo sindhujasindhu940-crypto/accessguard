@@ -5,7 +5,8 @@ const {
   getFacultyRequests,
   updateVisitorStatus,
   createVisitorRequest,
-  getMyRequests
+  getMyRequests,
+  getPassByPassId
 } = require('../controllers/visitorController');
 
 const { protect } = require('../middleware/authMiddleware');
@@ -13,6 +14,9 @@ const { authorizeRoles } = require('../middleware/roleMiddleware');
 
 // Public: Create a visitor request
 router.post('/request', createVisitorRequest);
+
+// Public: Get pass by passId
+router.get('/pass/:passId', getPassByPassId);
 
 // Visitor: get all their requests
 router.get('/my-requests', protect, authorizeRoles('Visitor'), getMyRequests);
